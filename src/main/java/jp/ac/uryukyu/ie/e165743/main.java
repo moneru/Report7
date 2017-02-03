@@ -9,10 +9,14 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 
 class main extends JFrame implements ActionListener {
-    JLabel label;
-    JLabel timeLabel;
-    Timer timer;
-    int sec;
+    public JLabel label;
+    public JPanel p;
+    public JLabel timeLabel;
+    public boolean counter;
+    public int sec;
+    public Timer timer;
+    public int c;
+    public JLabel count;
 
     public static void main(String args[]) {
         main Barrage = new main("title");
@@ -22,46 +26,68 @@ class main extends JFrame implements ActionListener {
     }
 
     main(String title) {
+        counter = true;
+        c = 0;
 
         setTitle(title);
-        JPanel p = new JPanel();
+        p = new JPanel();
         setSize(300, 300);
         setLocationRelativeTo(null);
 
 
-        label = new JLabel("");
         timeLabel = new JLabel("");
+        p.add(timeLabel);
+        sec = 1;
+        timer = new Timer(1000, main.this);
+
+
+        label = new JLabel("");
         JButton button1 = new JButton("Lets Barrage!");
         button1.addActionListener(this);
 
         p.add(label);
         p.add(button1);
-        p.add(timeLabel);
 
         getContentPane().add(p);
 
-        sec = 1;
 
         p.add(label);
 
-        timer = new Timer(1000 , this);
-
         getContentPane().add(p, BorderLayout.CENTER);
-
 
     }
 
-
     public void actionPerformed(ActionEvent e) {
+        Sub sub = new Sub();
+        Thread th = new Thread(sub);
+        if (counter){
+            th.start();
+        }
+
         label.setText("Start!!");
 
-        timer.start();
-        timeLabel.setText(11-sec + " sec");
+        c++;
+        count.setText(c);
 
-        if (sec >= 11){
-            timer.stop();
-        }else {
-            sec++;
+    }
+
+    class Sub extends Thread {
+
+        public void run() {
+            while (true) {
+                if(counter){
+                    timer.start();
+                    counter = false;
+                }
+
+                timeLabel.setText(11 - sec + " sec");
+
+                if (sec >= 11) {
+                    timer.stop();
+                } else {
+                    sec++;
+                }
+            }
         }
     }
 }

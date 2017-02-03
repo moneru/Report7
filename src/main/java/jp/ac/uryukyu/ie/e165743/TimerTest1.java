@@ -6,8 +6,8 @@ import java.awt.event.*;
 
 public class TimerTest1 extends JFrame implements ActionListener{
 
-    Timer timer;
     JLabel label;
+    Timer timer;
     int sec;
 
     public static void main(String[] args){

@@ -3,12 +3,14 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 
 class main extends JFrame implements ActionListener {
     JLabel label;
+    JLabel timeLabel;
     Timer timer;
     int sec;
 
@@ -26,35 +28,35 @@ class main extends JFrame implements ActionListener {
         setSize(300, 300);
         setLocationRelativeTo(null);
 
-        label = new JLabel("");
 
+        label = new JLabel("");
+        timeLabel = new JLabel("");
         JButton button1 = new JButton("Lets Barrage!");
         button1.addActionListener(this);
 
         p.add(label);
         p.add(button1);
+        p.add(timeLabel);
 
         getContentPane().add(p);
-    }
 
-    public void Timer(){
         sec = 1;
-        label = new JLabel("");
 
-        JPanel labelPanel = new JPanel();
-        labelPanel.add(label);
+        p.add(label);
 
         timer = new Timer(1000 , this);
 
-        getContentPane().add(labelPanel, BorderLayout.CENTER);
+        getContentPane().add(p, BorderLayout.CENTER);
 
-        timer.start();
+
     }
+
 
     public void actionPerformed(ActionEvent e) {
         label.setText("Start!!");
 
-        label.setText(12-sec + " sec");
+        timer.start();
+        timeLabel.setText(11-sec + " sec");
 
         if (sec >= 11){
             timer.stop();

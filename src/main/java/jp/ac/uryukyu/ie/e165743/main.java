@@ -11,12 +11,11 @@ import java.awt.event.*;
 class main extends JFrame implements ActionListener {
     public JLabel label;
     public JPanel p;
-    public JLabel timeLabel;
     public boolean counter;
-    public int sec;
-    public Timer timer;
     public int c;
-    public JLabel count;
+    public long start;
+    public long end;
+    public boolean exit;
 
     public static void main(String args[]) {
         main Barrage = new main("title");
@@ -33,12 +32,6 @@ class main extends JFrame implements ActionListener {
         p = new JPanel();
         setSize(300, 300);
         setLocationRelativeTo(null);
-
-
-        timeLabel = new JLabel("");
-        p.add(timeLabel);
-        sec = 1;
-        timer = new Timer(1000, main.this);
 
 
         label = new JLabel("");
@@ -58,35 +51,30 @@ class main extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        start = System.currentTimeMillis();
         Sub sub = new Sub();
         Thread th = new Thread(sub);
-        if (counter){
+        if (counter) {
+            label.setText("Start!!");
+            exit = true;
             th.start();
+            counter = false;
         }
-
-        label.setText("Start!!");
-
         c++;
-        count.setText(c);
+
 
     }
 
     class Sub extends Thread {
 
         public void run() {
-            while (true) {
-                if(counter){
-                    timer.start();
-                    counter = false;
+            while (exit) {
+                end = System.currentTimeMillis();
+                if ((end - start)/1000000000 == 5) {
+                    System.out.println(c);
+                    exit = false;
                 }
-
-                timeLabel.setText(11 - sec + " sec");
-
-                if (sec >= 11) {
-                    timer.stop();
-                } else {
-                    sec++;
-                }
+                System.out.println((start + end));
             }
         }
     }

@@ -75,12 +75,12 @@ class main extends JFrame implements ActionListener {
         public void run() {
             while (exit) {
                 end = System.currentTimeMillis();
-                if (TimeUnit.MILLISECONDS.toSeconds(end - start) == 3) {
+                if (TimeUnit.MILLISECONDS.toSeconds(end - start) == 10) {
                     exit = false;
                 }
             }
             result.setText("あなたの押した回数は" + c + "回です");
-            average.setText("平均回数は" + (c / 3) + "回です");
+            average.setText("平均回数は" + (c / 10) + "回です");
             label.setText("");
 
         }

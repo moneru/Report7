@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import java.awt.Container;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
 
 class main extends JFrame implements ActionListener {
     public JLabel label;
@@ -16,6 +16,8 @@ class main extends JFrame implements ActionListener {
     public long start;
     public long end;
     public boolean exit;
+    public JLabel result;
+    public JLabel average;
 
     public static void main(String args[]) {
         main Barrage = new main("title");
@@ -34,34 +36,37 @@ class main extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
 
 
+        result = new JLabel("");
+        average = new JLabel("");
         label = new JLabel("");
         JButton button1 = new JButton("Lets Barrage!");
         button1.addActionListener(this);
 
         p.add(label);
         p.add(button1);
+        p.add(result);
+        p.add(label);
+        p.add(average);
 
         getContentPane().add(p);
 
-
-        p.add(label);
 
         getContentPane().add(p, BorderLayout.CENTER);
 
     }
 
     public void actionPerformed(ActionEvent e) {
-        start = System.currentTimeMillis();
         Sub sub = new Sub();
         Thread th = new Thread(sub);
         if (counter) {
+            start = System.currentTimeMillis();
             label.setText("Start!!");
             exit = true;
             th.start();
             counter = false;
         }
         c++;
-
+        Toolkit.getDefaultToolkit().beep();
 
     }
 
@@ -70,12 +75,14 @@ class main extends JFrame implements ActionListener {
         public void run() {
             while (exit) {
                 end = System.currentTimeMillis();
-                if ((end - start)/1000000000 == 5) {
-                    System.out.println(c);
+                if (TimeUnit.MILLISECONDS.toSeconds(end - start) == 3) {
                     exit = false;
                 }
-                System.out.println((start + end));
             }
+            result.setText("あなたの押した回数は" + c + "回です");
+            average.setText("平均回数は" + (c / 3) + "回です");
+            label.setText("");
+
         }
     }
 }

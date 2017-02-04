@@ -3,12 +3,12 @@ import javax.swing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.TimeUnit;
 
 class main extends JFrame implements ActionListener {
+    /*後述の機能で利用する変数を追加する*/
     public JLabel label;
     public JPanel p;
     public boolean counter;
@@ -20,19 +20,20 @@ class main extends JFrame implements ActionListener {
     public JLabel average;
 
     public static void main(String args[]) {
-        main Barrage = new main("title");
-        Barrage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Barrage.setVisible(true);
+        main Barrage = new main("title");    /* ウィンドウのタイトル*/
+        Barrage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); /* ウィンドウを閉じる機能を追加する*/
+        Barrage.setVisible(true); /*ウィンドウを表示する*/
 
     }
 
+    /*ウィンドウに表示する数値やボタンなどの機能を追加していく*/
     main(String title) {
-        counter = true;
-        c = 0;
+        counter = true;  /*後述するwhile文を終了する際に使用する*/
+        c = 0;   /* ボタンを押した回数を保存する*/
 
         setTitle(title);
         p = new JPanel();
-        setSize(300, 300);
+        setSize(300, 150);
         setLocationRelativeTo(null);
 
 
@@ -55,18 +56,24 @@ class main extends JFrame implements ActionListener {
 
     }
 
+
+    /*この下から、先述したボタンを押した際の機能を追加していく。
+    「ボタンを押した瞬間の時間を取得し、押した回数を保存する機能」
+    「最初にボタンを押してから１０秒後に機能を終了し、押した回数・平均を表示する機能」を作る
+    この二つをスレッドを利用して並行して処理を行うようにする
+     */
     public void actionPerformed(ActionEvent e) {
-        Sub sub = new Sub();
+        Sub sub = new Sub(); /*サブのスレッドを用意する。*/
         Thread th = new Thread(sub);
         if (counter) {
-            start = System.currentTimeMillis();
-            label.setText("Start!!");
-            exit = true;
-            th.start();
-            counter = false;
+            start = System.currentTimeMillis(); /*ボタンを押した時間を取得し、startに保存する*/
+            label.setText("Start!!"); /*空白のlabelに表示させる*/
+            exit = true; /* サブのスレッドのwhile文を終了する際に使用する*/
+            th.start(); /* サブのスレッドを開始する*/
+            counter = false; /*counterの値をfalseにすることでボタンを押すたびに上記の機能が実行されないようにする*/
         }
-        c++;
-        Toolkit.getDefaultToolkit().beep();
+        c++; /*ボタンを押すたびに追加していく*/
+        Toolkit.getDefaultToolkit().beep(); /*ボタンを押すたびに音が出る*/
 
     }
 
@@ -74,14 +81,17 @@ class main extends JFrame implements ActionListener {
 
         public void run() {
             while (exit) {
+                /*時間を取得する
+                最初にボタンを押した時間から１０秒経過した時点でwhile文から抜けるようにする。
+                 */
                 end = System.currentTimeMillis();
                 if (TimeUnit.MILLISECONDS.toSeconds(end - start) == 10) {
                     exit = false;
                 }
             }
-            result.setText("あなたの押した回数は" + c + "回です");
-            average.setText("平均回数は" + (c / 10) + "回です");
-            label.setText("");
+            result.setText("あなたの押した回数は" + c + "回です");/*用意したラベルに結果を表示する*/
+            average.setText("１０秒間の平均回数は" + (c / 10) + "回です");/*用意したラベルに平均を表示する*/
+            label.setText("");/*　「start!!」の表示をしたラベルを空白にする。*/
 
         }
     }

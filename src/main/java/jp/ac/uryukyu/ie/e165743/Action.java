@@ -1,13 +1,14 @@
 package jp.ac.uryukyu.ie.e165743;
+
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
-class main extends JFrame implements ActionListener {
+
+public class Action extends JFrame implements ActionListener {
+
     /*後述の機能で利用する変数を追加する*/
     public JLabel label;
     public JPanel p;
@@ -19,15 +20,8 @@ class main extends JFrame implements ActionListener {
     public JLabel result;
     public JLabel average;
 
-    public static void main(String args[]) {
-        main Barrage = new main("title");    /* ウィンドウのタイトル*/
-        Barrage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); /* ウィンドウを閉じる機能を追加する*/
-        Barrage.setVisible(true); /*ウィンドウを表示する*/
-
-    }
-
     /*ウィンドウに表示する数値やボタンなどの機能を追加していく*/
-    main(String title) {
+    Action(String title) {
         counter = true;  /*後述するwhile文を終了する際に使用する*/
         c = 0;   /* ボタンを押した回数を保存する*/
 

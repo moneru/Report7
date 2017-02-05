@@ -16,7 +16,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes  "Main-Class": "jp.ac.uryukyu.ie.e165743.main"
+        attributes  "Main-Class": "jp.ac.uryukyu.ie.e165743.Main"
         attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
     }
 }

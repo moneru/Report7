@@ -84,7 +84,7 @@ public class Action extends JFrame implements ActionListener {
                 }
             }
             result.setText("あなたの押した回数は" + c + "回です");/*用意したラベルに結果を表示する*/
-            average.setText("１０秒間の平均回数は" + (c / 10) + "回です");/*用意したラベルに平均を表示する*/
+            average.setText("１秒間の平均回数は" + (c / 10) + "回です");/*用意したラベルに平均を表示する*/
             label.setText("");/*　「start!!」の表示をしたラベルを空白にする。*/
 
         }
